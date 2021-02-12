@@ -1,16 +1,13 @@
-<<<<<<< HEAD
-fn main() {
-    println!("Hello, world!");
-=======
-use sdl2::pixels::Color;
+use std::ops::Range;
+use std::time::Duration;
+
+use rand::Rng;
+use sdl2::{Error, Sdl};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use std::time::Duration;
-use sdl2::video::Window;
-use sdl2::{Error, Sdl};
+use sdl2::pixels::Color;
 use sdl2::render::WindowCanvas;
-use rand::Rng;
-use std::ops::Range;
+use sdl2::video::Window;
 
 const WINDOW_WIDTH: u32 = 1000;
 const WINDOW_HEIGHT: u32 = 1000;
@@ -67,5 +64,4 @@ fn drawing(sdl_ctx: &Sdl, canvas: &mut WindowCanvas) {
         canvas.present();
         ::std::thread::sleep(Duration::new(SLEEP_TIME_S, SLEEP_TIME_NANOS))
     }
->>>>>>> b9a699da3a15e4d44e73087877fa8e522de4c9a0
 }
