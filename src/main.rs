@@ -1,12 +1,13 @@
-use sdl2::pixels::Color;
+use std::ops::Range;
+use std::time::Duration;
+
+use rand::Rng;
+use sdl2::{Error, Sdl};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use std::time::Duration;
-use sdl2::video::Window;
-use sdl2::{Error, Sdl};
+use sdl2::pixels::Color;
 use sdl2::render::WindowCanvas;
-use rand::Rng;
-use std::ops::Range;
+use sdl2::video::Window;
 
 const WINDOW_WIDTH: u32 = 1000;
 const WINDOW_HEIGHT: u32 = 1000;
