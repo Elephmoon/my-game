@@ -12,7 +12,7 @@ use sdl2::video::Window;
 const WINDOW_WIDTH: u32 = 1000;
 const WINDOW_HEIGHT: u32 = 1000;
 const WINDOW_NAME: &str = "my-game";
-const SLEEP_TIME_NANOS: u32 = 20000;
+const SLEEP_TIME_NANOS: u32 = 17_000_000;
 const SLEEP_TIME_S: u64 = 2;
 const INIT_COLOR: Color = Color::RGB(0, 255, 255);
 const COLORS_RANGE: Range<u8> = 1..255;
@@ -42,26 +42,29 @@ fn init_window(sdl_ctx: &Sdl) -> Result<Window, Error> {
 }
 
 fn drawing(sdl_ctx: &Sdl, canvas: &mut WindowCanvas) {
-    canvas.set_draw_color(INIT_COLOR);
-    canvas.clear();
-    canvas.present();
+    render(canvas, INIT_COLOR);
     let mut even_queue = sdl_ctx.event_pump().expect("couldn't init event pump");
     loop {
         let red= rand::thread_rng().gen_range(COLORS_RANGE);
         let green = rand::thread_rng().gen_range(COLORS_RANGE);
         let blue = rand::thread_rng().gen_range(COLORS_RANGE);
-        canvas.set_draw_color(Color::RGB(red, green, blue));
-        canvas.clear();
         for event in even_queue.poll_iter() {
             match event {
-                Event::Quit {..} |
-                Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
+                Event::Quit { .. } |
+                Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
                     return;
                 }
                 _ => {}
             }
         }
-        canvas.present();
+        render(canvas, Color::RGB(red, green, blue));
+
         ::std::thread::sleep(Duration::new(SLEEP_TIME_S, SLEEP_TIME_NANOS))
     }
+}
+
+fn render(canvas: &mut WindowCanvas, color: Color) {
+    canvas.set_draw_color(color);
+    canvas.clear();
+    canvas.present();
 }
