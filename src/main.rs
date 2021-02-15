@@ -12,7 +12,7 @@ use sdl2::video::Window;
 const WINDOW_WIDTH: u32 = 1000;
 const WINDOW_HEIGHT: u32 = 1000;
 const WINDOW_NAME: &str = "my-game";
-const SLEEP_TIME_NANOS: u32 = 20000;
+const SLEEP_TIME_NANOS: u32 = 17_000_000;
 const SLEEP_TIME_S: u64 = 2;
 const INIT_COLOR: Color = Color::RGB(0, 255, 255);
 const COLORS_RANGE: Range<u8> = 1..255;
@@ -50,8 +50,8 @@ fn drawing(sdl_ctx: &Sdl, canvas: &mut WindowCanvas) {
         let blue = rand::thread_rng().gen_range(COLORS_RANGE);
         for event in even_queue.poll_iter() {
             match event {
-                Event::Quit {..} |
-                Event::KeyDown { keycode: Some(Keycode::Escape), ..} => {
+                Event::Quit { .. } |
+                Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
                     return;
                 }
                 _ => {}
