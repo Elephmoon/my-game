@@ -6,6 +6,7 @@ use sdl2::rect::{Point, Rect};
 use sdl2::render::{Texture, WindowCanvas};
 use sdl2::Sdl;
 
+use crate::direction::Direction;
 use crate::player::Player;
 use crate::window::{handle_event, init_window};
 
@@ -59,9 +60,16 @@ fn render(canvas: &mut WindowCanvas, color: Color, texture: &Texture, player: &P
     canvas.set_draw_color(color);
     canvas.clear();
     let (width, height) = canvas.output_size()?;
-    let position = player.position + Point::new(width as i32 / 2, height as i32 / 2);
-    let rect = Rect::from_center(position, player.sprite.width(), player.sprite.height());
-    canvas.copy(texture, player.sprite, rect)?;
+    let (frame_width, frame_height) = player.sprite.size();
+    let current_frame = Rect::new(
+        player.sprite.x() + frame_width as i32 * player.current_frame,
+        player.sprite.y() + frame_height as i32 * Direction::direction_sprite_row(player.direction),
+        frame_width,
+        frame_height,
+    );
+    let screen_position = player.position + Point::new(width as i32 / 2, height as i32 / 2);
+    let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
+    canvas.copy(texture, current_frame, screen_rect)?;
     canvas.present();
 
     Ok(())
